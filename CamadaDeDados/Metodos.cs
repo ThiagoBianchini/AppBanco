@@ -8,16 +8,17 @@ namespace CamadaDeDados
         public static readonly string RESETCOR = "\u001B[0m";
         public static readonly string VERDE = "\u001B[32m";
 
-        public Cliente Cadastrar()
+        public void Cadastrar(Cliente cliente)
         {
             Console.WriteLine("Digite os dados:");
             Console.WriteLine("Nome: ");
-            Nome = Console.ReadLine();
+            cliente.Nome = Console.ReadLine();
             Console.WriteLine("Email: ");
-            Email = Console.ReadLine();
+            cliente.Email = Console.ReadLine();
             Console.WriteLine("CPF (sem - ou .): ");
-            CPF = long.Parse(Console.ReadLine());
-            Console.WriteLine("Deseja adicionar saldo à conta? S - Sim / N - Não");
+            cliente.CPF = long.Parse(Console.ReadLine());
+            Console.WriteLine("O cliente é vip?");
+            Console.WriteLine("A conta é vip? S - Sim / N - Não");
             char escolha;
             while (!char.TryParse(Console.ReadLine(), out escolha) || (char.ToUpper(escolha) != 'S' && char.ToUpper(escolha) != 'N'))
             {
@@ -27,13 +28,24 @@ namespace CamadaDeDados
 
             if (char.ToUpper(escolha) == 'S')
             {
-                Console.WriteLine(Depositar());
+                cliente.Evip = true;
+            }
+            Console.WriteLine("Deseja adicionar saldo à conta? S - Sim / N - Não");
+            char escolha2;
+            while (!char.TryParse(Console.ReadLine(), out escolha2) || (char.ToUpper(escolha2) != 'S' && char.ToUpper(escolha2) != 'N'))
+            {
+                Console.WriteLine($"Escolha inválida, tente novamente", Console.ForegroundColor = ConsoleColor.Red);
+                Console.ResetColor();
             }
 
-            return new Cliente();
+            if (char.ToUpper(escolha) == 'S')
+            {
+                Console.WriteLine(Depositar(cliente));
+            }
         }
 
-        public string Depositar()
+
+        public string Depositar(Cliente cliente)
         {
             Console.WriteLine("Digite o valor que deseja depositar: ");
             double deposito;
@@ -41,9 +53,9 @@ namespace CamadaDeDados
             {
                 Console.WriteLine("Valor não suportado para a operação de depósito, por favor, digite o valor novamente.");
             }
-            Saldo += deposito;
-            Extratos.Add(new Extrato(DateTime.Now, deposito, $"Depósito de {deposito}$", "Depósito"));
-            if (Saldo > 0)
+            cliente.Saldo += deposito;
+            cliente.Extratos.Add(new Extrato(DateTime.Now, deposito, $"Depósito de {deposito}$", "Depósito"));
+            if (cliente.Saldo > 0)
             {
                 return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {Nome}\nSaldo total: {VERDE}{Saldo}${RESETCOR}";
             }
@@ -53,7 +65,7 @@ namespace CamadaDeDados
             }
         }
 
-        public string Sacar()
+        public string Sacar(Cliente cliente)
         {
             Console.WriteLine("Digite o valor que deseja sacar: ");
             double saque = double.Parse(Console.ReadLine());
@@ -62,19 +74,19 @@ namespace CamadaDeDados
                 Console.WriteLine("Valor não suportado para a operação de saque, por favor, digite o valor novamente.");
             }
 
-            if (saque > Saldo)
+            if (saque > cliente.Saldo)
             {
                 return "O valor a ser sacado é maior que o possuído na conta, portanto não é possível sacar essa quantia";
             }
             else
             {
-                Saldo -= saque;
-                Extratos.Add(new Extrato(DateTime.Now, saque, $"Saque de {saque}$", "Saque"));
+                cliente.Saldo -= saque;
+                cliente.Extratos.Add(new Extrato(DateTime.Now, saque, $"Saque de {saque}$", "Saque"));
                 return $"Foram sacados {VERMELHO}{saque}{RESETCOR} Simoleons na conta de {Nome}.\nResta agora {VERDE}{Saldo}${RESETCOR} na conta de {Nome}.";
             }
         }
 
-        public string Pagar()
+        public string Pagar(Cliente cliente)
         {
             Console.WriteLine("Digite o valor do pagamento: ");
             double pagamento = double.Parse(Console.ReadLine());
@@ -85,9 +97,9 @@ namespace CamadaDeDados
                 Console.WriteLine("Valor não suportado para a operação de saque, por favor, digite o valor novamente.");
             }
 
-            Saldo -= pagamento;
-            Extratos.Add(new Extrato(DateTime.Now, pagamento, descricao, "Pagamento"));
-            if (pagamento > Saldo)
+            cliente.Saldo -= pagamento;
+            cliente.Extratos.Add(new Extrato(DateTime.Now, pagamento, descricao, "Pagamento"));
+            if (pagamento > cliente.Saldo)
             {
                 return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {Nome} foi efetuado. Dívida de {VERMELHO}{Saldo}${RESETCOR}";
             }
@@ -114,5 +126,9 @@ namespace CamadaDeDados
             return $"Transferência de {beneficiario.Nome} para {favorecido.Nome} no valor de {transferencia} feita com sucesso.";
         }
 
+        public void SalvarArquivo() 
+        {
+
+        }
     }
 }

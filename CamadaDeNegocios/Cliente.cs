@@ -7,6 +7,7 @@ namespace CamadaDeNegocios
         private string? nome;
         private string email;
         private long cpf;
+        private bool evip = false;
         private double saldo = 0;
         private List<Extrato> extratos = new List<Extrato>();
 
@@ -52,6 +53,8 @@ namespace CamadaDeNegocios
                 cpf = value;
             }
         }
+
+        public bool Evip { get; set; }
 
         public double Saldo 
         {

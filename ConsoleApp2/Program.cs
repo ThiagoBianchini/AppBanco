@@ -9,11 +9,14 @@ namespace BancoUI
         static void Main(string[] args)
         {
             List<Cliente> clientesLista = new List<Cliente>();
-            List<Standart> standartsLista = new List<Standart>();
-            List<Vip> vipsLista = new List<Vip>();
+            List<Cliente> standartsLista = new List<Cliente>();
+            List<Cliente> vipsLista = new List<Cliente>();
             bool continua = true;
 
-            Console.WriteLine("Deseja salvar os conteúdos em A - arquivo ou em l - lista (se salvo em lista, o conteúdo não será acessível depois do fechamento do programa) ?");
+            Metodos metodos = new Metodos();
+            
+
+            Console.WriteLine("Deseja salvar os conteúdos em A - arquivo ou em L - lista (se salvo em lista, o conteúdo não será acessível depois do fechamento do programa) ?");
             char salva = Console.ReadKey().KeyChar;
             while (true)
             {
@@ -78,8 +81,8 @@ namespace BancoUI
 
                             if (char.ToUpper(tipo) == 'S')
                             {
-                                Standart standart = new Standart();
-                                standart.Cadastrar();
+                                Cliente standart = new Cliente();
+                                metodos.Cadastrar(standart);
                                 standartsLista.Add(standart);
                                 clientesLista.Add(standart);
                                 Thread.Sleep(3000);
@@ -88,8 +91,8 @@ namespace BancoUI
                             }
                             else if (char.ToUpper(tipo) == 'V')
                             {
-                                Vip vip = new Vip();
-                                vip.Cadastrar();
+                                Cliente vip = new Cliente();
+                                metodos.Cadastrar(vip);
                                 vipsLista.Add(vip);
                                 clientesLista.Add(vip);
                                 if (char.ToUpper(salva) == 'A')
@@ -133,7 +136,7 @@ namespace BancoUI
 
                                 for (int i = 0; i < standartsLista.Count; i++)
                                 {
-                                    Standart standart = standartsLista[i];
+                                    Cliente standart = standartsLista[i];
                                     Console.WriteLine(i + 1 + " - " + standart.Nome, Console.ForegroundColor = ConsoleColor.Blue);
                                     Console.ResetColor();
                                 }
@@ -148,7 +151,7 @@ namespace BancoUI
 
                                 for (int i = 0; i < vipsLista.Count; i++)
                                 {
-                                    Vip vip = vipsLista[i];
+                                    Cliente vip = vipsLista[i];
                                     Console.WriteLine("* " + (i + 1) + " - " + vip.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
                                     Console.ResetColor();
                                 }
@@ -178,7 +181,7 @@ namespace BancoUI
                         for (int i = 0; i < clientesLista.Count; i++)
                         {
                             Cliente cliente = clientesLista[i];
-                            if (cliente is Vip)
+                            if (cliente.Evip == true)
                             {
                                 Console.WriteLine("* " + (i + 1) + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
                                 Console.ResetColor();
@@ -206,17 +209,17 @@ namespace BancoUI
                         switch (opcao2)
                         {
                             case '1':
-                                Console.WriteLine(clientesLista[escolhaConta].Depositar());
+                                Console.WriteLine(metodos.Depositar(clientesLista[escolhaConta]));
                                 Thread.Sleep(3000);
                                 break;
 
                             case '2':
-                                Console.WriteLine(clientesLista[escolhaConta].Sacar());
+                                Console.WriteLine(metodos.Sacar(clientesLista[escolhaConta]));
                                 Thread.Sleep(3000);
                                 break;
 
                             case '3':
-                                Console.WriteLine(clientesLista[escolhaConta].Pagar());
+                                Console.WriteLine(metodos.Pagar(clientesLista[escolhaConta]));
                                 Thread.Sleep(3000);
                                 break;
 
@@ -228,7 +231,7 @@ namespace BancoUI
                                     Cliente cliente = clientesLista[i];
                                     if (i == escolhaConta)
                                     {
-                                        if (cliente is Vip)
+                                        if (cliente.Evip == true)
                                         {
                                             Console.WriteLine("* " + (i + 1) + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
                                             Console.ResetColor();
@@ -239,7 +242,7 @@ namespace BancoUI
                                             Console.ResetColor();
                                         }
                                     }
-                                    else if (cliente is Vip)
+                                    else if (cliente.Evip == true)
                                     {
                                         Console.WriteLine("* " + (i + 1) + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
                                         Console.ResetColor();
@@ -253,7 +256,7 @@ namespace BancoUI
 
                                 int escolhaFavor = int.Parse(Console.ReadLine());
 
-                                Console.WriteLine(clientesLista[escolhaConta].Transferir(clientesLista[escolhaConta], clientesLista[escolhaFavor]));
+                                Console.WriteLine(metodos.Transferir(clientesLista[escolhaConta], clientesLista[escolhaFavor]));
                                 Thread.Sleep(3000);
                                 break;
 
