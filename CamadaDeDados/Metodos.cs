@@ -111,6 +111,10 @@ namespace CamadaDeDados
 
         public string Transferir(Cliente beneficiario, Cliente favorecido)
         {
+
+
+
+
             Console.WriteLine("Digite o valor da transferência: ");
             double transferencia = double.Parse(Console.ReadLine());
             while (!double.TryParse(Console.ReadLine(), out transferencia) || transferencia <= 0)

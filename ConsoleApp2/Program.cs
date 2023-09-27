@@ -4,8 +4,8 @@ using CamadaDeNegocios;
 namespace BancoUI
 {
 
-    class Program
-    {
+    class Program { 
+    
         static void Main(string[] args)
         {
             List<Cliente> clientesLista = new List<Cliente>();
@@ -34,6 +34,7 @@ namespace BancoUI
             if (char.ToUpper(salva) == 'A')
             {
                 FileStream fileStream = new FileStream("Clientes.txt", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                Console.Clear();
             }
 
             while (continua)
