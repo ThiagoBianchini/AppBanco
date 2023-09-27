@@ -1,6 +1,6 @@
 ﻿namespace CamadaDeNegocios
 {
-    internal class Extrato : Cliente
+    public class Extrato : Cliente
     {
         private DateTime horario;
         private double valor;

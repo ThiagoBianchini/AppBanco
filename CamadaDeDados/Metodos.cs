@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CamadaDeDados
 {
-    public class Metodos : Cliente
+    public class Metodos : IRepositorio
     {
         public static readonly string VERMELHO = "\u001B[31m";
         public static readonly string RESETCOR = "\u001B[0m";
