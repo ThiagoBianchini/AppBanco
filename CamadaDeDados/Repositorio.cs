@@ -2,7 +2,7 @@
 
 namespace CamadaDeDados
 {
-    public interface IRepositorio : Cliente
+    public interface IRepositorio
     {
         Cliente Cadastrar();
         string Depositar();

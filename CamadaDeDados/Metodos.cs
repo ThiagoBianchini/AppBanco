@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CamadaDeNegocios;
 
 namespace CamadaDeDados
 {
-    public class Metodos : IRepositorio
+    public class Metodos : Cliente
     {
         public static readonly string VERMELHO = "\u001B[31m";
         public static readonly string RESETCOR = "\u001B[0m";
@@ -45,15 +41,15 @@ namespace CamadaDeDados
             {
                 Console.WriteLine("Valor não suportado para a operação de depósito, por favor, digite o valor novamente.");
             }
-            saldo += deposito;
-            extratos.Add(new Extrato(DateTime.Now, deposito, $"Depósito de {deposito}$", "Depósito"));
-            if (saldo > 0)
+            Saldo += deposito;
+            Extratos.Add(new Extrato(DateTime.Now, deposito, $"Depósito de {deposito}$", "Depósito"));
+            if (Saldo > 0)
             {
-                return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {nome}\nSaldo total: {VERDE}{saldo}${RESETCOR}";
+                return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {Nome}\nSaldo total: {VERDE}{Saldo}${RESETCOR}";
             }
             else
             {
-                return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {nome}\nSaldo total: {VERMELHO}{saldo}${RESETCOR}";
+                return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {Nome}\nSaldo total: {VERMELHO}{Saldo}${RESETCOR}";
             }
         }
 
@@ -66,15 +62,15 @@ namespace CamadaDeDados
                 Console.WriteLine("Valor não suportado para a operação de saque, por favor, digite o valor novamente.");
             }
 
-            if (saque > saldo)
+            if (saque > Saldo)
             {
                 return "O valor a ser sacado é maior que o possuído na conta, portanto não é possível sacar essa quantia";
             }
             else
             {
-                saldo -= saque;
-                extratos.Add(new Extrato(DateTime.Now, saque, $"Saque de {saque}$", "Saque"));
-                return $"Foram sacados {VERMELHO}{saque}{RESETCOR} Simoleons na conta de {nome}.\nResta agora {VERDE}{saldo}${RESETCOR} na conta de {nome}.";
+                Saldo -= saque;
+                Extratos.Add(new Extrato(DateTime.Now, saque, $"Saque de {saque}$", "Saque"));
+                return $"Foram sacados {VERMELHO}{saque}{RESETCOR} Simoleons na conta de {Nome}.\nResta agora {VERDE}{Saldo}${RESETCOR} na conta de {Nome}.";
             }
         }
 
@@ -89,15 +85,15 @@ namespace CamadaDeDados
                 Console.WriteLine("Valor não suportado para a operação de saque, por favor, digite o valor novamente.");
             }
 
-            saldo -= pagamento;
-            extratos.Add(new Extrato(DateTime.Now, pagamento, descricao, "Pagamento"));
-            if (pagamento > saldo)
+            Saldo -= pagamento;
+            Extratos.Add(new Extrato(DateTime.Now, pagamento, descricao, "Pagamento"));
+            if (pagamento > Saldo)
             {
-                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {nome} foi efetuado. Dívida de {VERMELHO}{saldo}${RESETCOR}";
+                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {Nome} foi efetuado. Dívida de {VERMELHO}{Saldo}${RESETCOR}";
             }
             else
             {
-                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {nome} foi efetuado. Saldo restante: {VERDE}{saldo}${RESETCOR}";
+                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {Nome} foi efetuado. Saldo restante: {VERDE}{Saldo}${RESETCOR}";
             }
         }
 
@@ -110,33 +106,13 @@ namespace CamadaDeDados
                 Console.WriteLine("Valor não suportado para transferência, por favor, digite o valor novamente.");
             }
 
-            beneficiario.saldo -= transferencia;
-            favorecido.saldo += transferencia;
-            beneficiario.extratos.Add(new Extrato(DateTime.Now, -transferencia, $"Tranferência feita para {favorecido.nome}", "Transferência"));
-            favorecido.extratos.Add(new Extrato(DateTime.Now, transferencia, $"Transferência recebida de {beneficiario.nome}", "Transferência"));
+            beneficiario.Saldo -= transferencia;
+            favorecido.Saldo += transferencia;
+            beneficiario.Extratos.Add(new Extrato(DateTime.Now, -transferencia, $"Tranferência feita para {favorecido.Nome}", "Transferência"));
+            favorecido.Extratos.Add(new Extrato(DateTime.Now, transferencia, $"Transferência recebida de {beneficiario.Nome}", "Transferência"));
 
-            return $"Transferência de {beneficiario.nome} para {favorecido.nome} no valor de {transferencia} feita com sucesso.";
+            return $"Transferência de {beneficiario.Nome} para {favorecido.Nome} no valor de {transferencia} feita com sucesso.";
         }
 
-        public bool ValidarNome(string novoNome)
-        {
-            string nomeRgx = "[a-zA-Z]+";
-            return Regex.IsMatch(novoNome, nomeRgx);
-        }
-
-        public bool ValidarEmail(string email)
-        {
-            string emailRgx = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-            return Regex.IsMatch(email, emailRgx);
-        }
-
-        public bool ValidarCPF(long cpf)
-        {
-            string cpfRgx = "^\\d{11}$";
-            string cpfStr = cpf.ToString();
-            return Regex.IsMatch(cpfStr, cpfRgx);
-        }
-    }
-}
     }
 }
