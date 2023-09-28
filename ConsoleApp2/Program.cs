@@ -242,16 +242,19 @@ namespace BancoUI
                                     case '1':
                                         Console.WriteLine("Novo Nome:");
                                         clienteMain.Nome = Console.ReadLine();
+                                        Console.Clear();
                                         break;
 
                                     case '2':
                                         Console.WriteLine("Novo Email:");
                                         clienteMain.Email = Console.ReadLine();
+                                        Console.Clear();
                                         break;
 
                                     case '3':
                                         Console.WriteLine("Novo CPF:");
                                         clienteMain.CPF = long.Parse(Console.ReadLine());
+                                        Console.Clear();
                                         break;
 
                                     default:
