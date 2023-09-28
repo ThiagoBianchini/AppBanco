@@ -17,7 +17,6 @@ namespace CamadaDeDados
             cliente.Email = Console.ReadLine();
             Console.WriteLine("CPF (sem - ou .): ");
             cliente.CPF = long.Parse(Console.ReadLine());
-            Console.WriteLine("O cliente é vip?");
             Console.WriteLine("A conta é vip? S - Sim / N - Não");
             char escolha;
             while (!char.TryParse(Console.ReadLine(), out escolha) || (char.ToUpper(escolha) != 'S' && char.ToUpper(escolha) != 'N'))
@@ -38,7 +37,7 @@ namespace CamadaDeDados
                 Console.ResetColor();
             }
 
-            if (char.ToUpper(escolha) == 'S')
+            if (char.ToUpper(escolha2) == 'S')
             {
                 Console.WriteLine(Depositar(cliente));
             }
@@ -57,11 +56,11 @@ namespace CamadaDeDados
             cliente.Extratos.Add(new Extrato(DateTime.Now, deposito, $"Depósito de {deposito}$", "Depósito"));
             if (cliente.Saldo > 0)
             {
-                return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {Nome}\nSaldo total: {VERDE}{Saldo}${RESETCOR}";
+                return $"Foram depositados {VERDE}{deposito}${RESETCOR} na conta de {cliente.Nome}\nSaldo total: {VERDE}{cliente.Saldo}${RESETCOR}";
             }
             else
             {
-                return $"Foram depositados {VERDE}{deposito}{RESETCOR} Bits na conta de {Nome}\nSaldo total: {VERMELHO}{Saldo}${RESETCOR}";
+                return $"Foram depositados {VERDE}{deposito}${RESETCOR} na conta de {cliente.Nome}\nSaldo total: {VERMELHO}{cliente.Saldo}${RESETCOR}";
             }
         }
 
@@ -82,7 +81,7 @@ namespace CamadaDeDados
             {
                 cliente.Saldo -= saque;
                 cliente.Extratos.Add(new Extrato(DateTime.Now, saque, $"Saque de {saque}$", "Saque"));
-                return $"Foram sacados {VERMELHO}{saque}{RESETCOR} Simoleons na conta de {Nome}.\nResta agora {VERDE}{Saldo}${RESETCOR} na conta de {Nome}.";
+                return $"Foram sacados {VERMELHO}{saque}{RESETCOR} Simoleons na conta de {cliente.Nome}.\nResta agora {VERDE}{cliente.Saldo}${RESETCOR} na conta de {cliente.Nome}.";
             }
         }
 
@@ -101,11 +100,11 @@ namespace CamadaDeDados
             cliente.Extratos.Add(new Extrato(DateTime.Now, pagamento, descricao, "Pagamento"));
             if (pagamento > cliente.Saldo)
             {
-                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {Nome} foi efetuado. Dívida de {VERMELHO}{Saldo}${RESETCOR}";
+                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {cliente.Nome} foi efetuado. Dívida de {VERMELHO}{cliente.Saldo}${RESETCOR}";
             }
             else
             {
-                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {Nome} foi efetuado. Saldo restante: {VERDE}{Saldo}${RESETCOR}";
+                return $"O pagamento de {VERMELHO}{pagamento}{RESETCOR} pela conta de {cliente.Nome} foi efetuado. Saldo restante: {VERDE}{cliente.Saldo}${RESETCOR}";
             }
         }
 
@@ -113,7 +112,7 @@ namespace CamadaDeDados
         {
 
             Console.WriteLine("Digite o valor da transferência: ");
-            double transferencia = double.Parse(Console.ReadLine());
+            double transferencia;
             while (!double.TryParse(Console.ReadLine(), out transferencia) || transferencia <= 0)
             {
                 Console.WriteLine("Valor não suportado para transferência, por favor, digite o valor novamente.");
@@ -123,8 +122,7 @@ namespace CamadaDeDados
             favorecido.Saldo += transferencia;
             beneficiario.Extratos.Add(new Extrato(DateTime.Now, -transferencia, $"Tranferência feita para {favorecido.Nome}", "Transferência"));
             favorecido.Extratos.Add(new Extrato(DateTime.Now, transferencia, $"Transferência recebida de {beneficiario.Nome}", "Transferência"));
-
-            return $"Transferência de {beneficiario.Nome} para {favorecido.Nome} no valor de {transferencia} feita com sucesso.";
+            return $"Transferência de {beneficiario.Nome} para {favorecido.Nome} no valor de {VERDE}{transferencia}${RESETCOR} feita com sucesso.";
         }
 
         public void SalvarArquivo() 

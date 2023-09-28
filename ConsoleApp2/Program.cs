@@ -14,10 +14,11 @@ namespace BancoUI
             bool continua = true;
 
             Metodos metodos = new Metodos();
-            
+
 
             Console.WriteLine("Deseja salvar os conteúdos em A - arquivo ou em L - lista (se salvo em lista, o conteúdo não será acessível depois do fechamento do programa) ?");
             char salva = Console.ReadKey().KeyChar;
+            Console.WriteLine();
             while (true)
             {
                 if (char.ToUpper(salva) != 'A' && char.ToUpper(salva) != 'L')
@@ -27,13 +28,14 @@ namespace BancoUI
                 }
                 else
                 {
+                    Console.Clear();
                     break;
                 }
             }
 
             if (char.ToUpper(salva) == 'A')
             {
-                FileStream fileStream = new FileStream("Clientes.txt", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                FileStream fileStream = new FileStream(@"Clientes.txt", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
                 Console.Clear();
             }
 
@@ -72,51 +74,21 @@ namespace BancoUI
                 {
                     case '1':
                         Console.WriteLine("CADASTRAR CLIENTE");
-                        while (true)
-                        {
-                            Console.WriteLine("S - Standart / V - Vip");
-                            Console.WriteLine("X - Voltar", Console.ForegroundColor = ConsoleColor.Red);
-                            Console.ResetColor();
-                            char tipo = Console.ReadKey().KeyChar;
-                            Console.WriteLine();
-
-                            if (char.ToUpper(tipo) == 'S')
+                            Cliente cliente = new Cliente();
+                            metodos.Cadastrar(cliente);
+                            clientesLista.Add(cliente);
+                            if (cliente.Evip == true)
                             {
-                                Cliente standart = new Cliente();
-                                metodos.Cadastrar(standart);
-                                standartsLista.Add(standart);
-                                clientesLista.Add(standart);
-                                Thread.Sleep(3000);
-                                Console.Clear();
-                                break;
-                            }
-                            else if (char.ToUpper(tipo) == 'V')
-                            {
-                                Cliente vip = new Cliente();
-                                metodos.Cadastrar(vip);
-                                vipsLista.Add(vip);
-                                clientesLista.Add(vip);
-                                if (char.ToUpper(salva) == 'A')
-                                {
-
-                                }
-                                Thread.Sleep(3000);
-                                Console.Clear();
-                                break;
-                            }
-                            else if (char.ToUpper(tipo) == 'X')
-                            {
-                                Console.Clear();
-                                break;
+                                vipsLista.Add(cliente);
                             }
                             else
                             {
-                                Console.WriteLine("Escolha inválida, tente novamente", Console.ForegroundColor = ConsoleColor.Red);
-                                Console.ResetColor();
+                                standartsLista.Add(cliente);
                             }
-                        }
-                        break;
-
+                            Thread.Sleep(3000);
+                            Console.Clear();
+                            break;
+                        
                     case '2':
                         Console.WriteLine("Qual o tipo de conta deseja verificar?");
                         while (true)
@@ -181,20 +153,21 @@ namespace BancoUI
 
                         for (int i = 0; i < clientesLista.Count; i++)
                         {
-                            Cliente cliente = clientesLista[i];
-                            if (cliente.Evip == true)
+                            Cliente itemCliente = clientesLista[i];
+                            if (itemCliente.Evip == true)
                             {
-                                Console.WriteLine("* " + (i + 1) + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
+                                Console.WriteLine("* " + (i + 1) + " - " + itemCliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
                                 Console.ResetColor();
                             }
                             else
                             {
-                                Console.WriteLine(i + 1 + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
+                                Console.WriteLine(i + 1 + " - " + itemCliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
                                 Console.ResetColor();
                             }
                         }
 
                         int escolhaConta = int.Parse(Console.ReadLine()) - 1;
+                        Cliente clienteMain = clientesLista[escolhaConta];
 
                         Console.WriteLine("OPERAÇÕES");
                         Console.WriteLine("1 - Depositar");
@@ -210,55 +183,49 @@ namespace BancoUI
                         switch (opcao2)
                         {
                             case '1':
-                                Console.WriteLine(metodos.Depositar(clientesLista[escolhaConta]));
+                                Console.WriteLine(metodos.Depositar(clienteMain));
                                 Thread.Sleep(3000);
+                                Console.Clear();
                                 break;
 
                             case '2':
-                                Console.WriteLine(metodos.Sacar(clientesLista[escolhaConta]));
+                                Console.WriteLine(metodos.Sacar(clienteMain));
                                 Thread.Sleep(3000);
+                                Console.Clear();
                                 break;
 
                             case '3':
-                                Console.WriteLine(metodos.Pagar(clientesLista[escolhaConta]));
+                                Console.WriteLine(metodos.Pagar(clienteMain));
                                 Thread.Sleep(3000);
+                                Console.Clear();
                                 break;
 
                             case '4':
                                 Console.WriteLine("Escolha uma conta para ser o favorecido: ");
-
-                                for (int i = 0; i < clientesLista.Count; i++)
+                                List<Cliente> favorecidos = new List<Cliente>(clientesLista);
+                                favorecidos.Remove(clienteMain);
+                                for (int i = 0; i < favorecidos.Count; i++)
                                 {
-                                    Cliente cliente = clientesLista[i];
-                                    if (i == escolhaConta)
+                                    var opCliente = favorecidos[i];
+
+                                    if (opCliente.Evip == true) 
                                     {
-                                        if (cliente.Evip == true)
-                                        {
-                                            Console.WriteLine("* " + (i + 1) + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
-                                            Console.ResetColor();
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine(i + 1 + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
-                                            Console.ResetColor();
-                                        }
-                                    }
-                                    else if (cliente.Evip == true)
-                                    {
-                                        Console.WriteLine("* " + (i + 1) + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
+                                        Console.WriteLine("* " + (i + 1) + " - " + opCliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
                                         Console.ResetColor();
                                     }
                                     else
                                     {
-                                        Console.WriteLine(i + 1 + " - " + cliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
+                                        Console.WriteLine(i + 1 + " - " + opCliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
                                         Console.ResetColor();
                                     }
                                 }
 
-                                int escolhaFavor = int.Parse(Console.ReadLine());
+                                int escolhaFavor = int.Parse(Console.ReadLine()) - 1;
+                                Cliente clienteFavor = favorecidos[escolhaFavor];
 
-                                Console.WriteLine(metodos.Transferir(clientesLista[escolhaConta], clientesLista[escolhaFavor]));
+                                Console.WriteLine(metodos.Transferir(clienteMain, clienteFavor));
                                 Thread.Sleep(3000);
+                                Console.Clear();
                                 break;
 
                             case '5':
@@ -274,17 +241,17 @@ namespace BancoUI
                                 {
                                     case '1':
                                         Console.WriteLine("Novo Nome:");
-                                        clientesLista[escolhaConta].Nome = Console.ReadLine();
+                                        clienteMain.Nome = Console.ReadLine();
                                         break;
 
                                     case '2':
                                         Console.WriteLine("Novo Email:");
-                                        clientesLista[escolhaConta].Email = Console.ReadLine();
+                                        clienteMain.Email = Console.ReadLine();
                                         break;
 
                                     case '3':
                                         Console.WriteLine("Novo CPF:");
-                                        clientesLista[escolhaConta].CPF = long.Parse(Console.ReadLine());
+                                        clienteMain.CPF = long.Parse(Console.ReadLine());
                                         break;
 
                                     default:

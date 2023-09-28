@@ -59,7 +59,7 @@ namespace CamadaDeNegocios
         public double Saldo 
         {
             get { return saldo; }
-            set { }
+            set { saldo = value; }
         }
 
         public List<Extrato> Extratos   
