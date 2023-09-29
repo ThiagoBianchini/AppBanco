@@ -101,32 +101,57 @@ namespace BancoUI
 
                             if (char.ToUpper(tipo) == 'S')
                             {
-                                if (standartsLista.Count == 0)
+                                while (true)
                                 {
-                                    Console.WriteLine("Ainda não foram cadastrados clientes desse tipo", Console.ForegroundColor = ConsoleColor.Red);
-                                    Console.ResetColor();
-                                }
+                                    if (standartsLista.Count == 0)
+                                    {
+                                        Console.WriteLine("Ainda não foram cadastrados clientes desse tipo", Console.ForegroundColor = ConsoleColor.Red);
+                                        Console.ResetColor();
+                                        Thread.Sleep(1000);
+                                        Console.Clear();
+                                    }
 
-                                for (int i = 0; i < standartsLista.Count; i++)
-                                {
-                                    Cliente standart = standartsLista[i];
-                                    Console.WriteLine(i + 1 + " - " + standart.Nome, Console.ForegroundColor = ConsoleColor.Blue);
+                                    for (int i = 0; i < standartsLista.Count; i++)
+                                    {
+                                        Cliente standart = standartsLista[i];
+                                        Console.WriteLine(i + 1 + " - " + standart.Nome, Console.ForegroundColor = ConsoleColor.Blue);
+                                        Console.ResetColor();
+                                    }
+
+                                    Console.WriteLine("\n\nX - Voltar", Console.ForegroundColor = ConsoleColor.Red);
                                     Console.ResetColor();
+                                    char volta = Console.ReadKey().KeyChar;
+                                    if (char.ToUpper(volta) == 'X')
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                             else if (char.ToUpper(tipo) == 'V')
                             {
-                                if (vipsLista.Count == 0)
+                                while (true)
                                 {
-                                    Console.WriteLine("Ainda não foram cadastrados clientes desse tipo", Console.ForegroundColor = ConsoleColor.Red);
-                                    Console.ResetColor();
-                                }
+                                    if (vipsLista.Count == 0)
+                                    {
+                                        Console.WriteLine("Ainda não foram cadastrados clientes desse tipo", Console.ForegroundColor = ConsoleColor.Red);
+                                        Console.ResetColor();
+                                    }
 
-                                for (int i = 0; i < vipsLista.Count; i++)
-                                {
-                                    Cliente vip = vipsLista[i];
-                                    Console.WriteLine("* " + (i + 1) + " - " + vip.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
+                                    for (int i = 0; i < vipsLista.Count; i++)
+                                    {
+                                        Cliente vip = vipsLista[i];
+                                        Console.WriteLine("* " + (i + 1) + " - " + vip.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
+                                        Console.ResetColor();
+                                    }
+
+
+                                    Console.WriteLine("\n\nX - Voltar", Console.ForegroundColor = ConsoleColor.Red);
                                     Console.ResetColor();
+                                    char volta = Console.ReadKey().KeyChar;
+                                    if (char.ToUpper(volta) == 'X')
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                             else if (char.ToUpper(tipo) == 'X')
@@ -149,6 +174,8 @@ namespace BancoUI
                         {
                             Console.WriteLine("Ainda não foram cadastrados clientes para que possam haver operações de conta", Console.ForegroundColor = ConsoleColor.Red);
                             Console.ResetColor();
+                            Thread.Sleep(2000);
+                            break;
                         }
 
                         for (int i = 0; i < clientesLista.Count; i++)
@@ -167,135 +194,146 @@ namespace BancoUI
                         }
 
                         int escolhaConta = int.Parse(Console.ReadLine()) - 1;
-                        Cliente clienteMain = clientesLista[escolhaConta];
+                        Cliente clienteMain = clientesLista[escolhaConta];          
 
-                        Console.WriteLine("OPERAÇÕES");
-                        Console.WriteLine("1 - Depositar");
-                        Console.WriteLine("2 - Sacar");
-                        Console.WriteLine("3 - Pagar");
-                        Console.WriteLine("4 - Transferir");
-                        Console.WriteLine("5 - Alterar dados cadastrais");
-                        Console.WriteLine("6 - Mostrar detalhes de conta");
-                        Console.WriteLine("7 - Voltar");
-
-                        char opcao2 = Console.ReadKey().KeyChar;
-                        Console.WriteLine();
-
-                        switch (opcao2)
+                        while (true)
                         {
-                            case '1':
-                                Console.WriteLine(metodos.Depositar(clienteMain));
-                                Thread.Sleep(3000);
-                                Console.Clear();
-                                break;
-
-                            case '2':
-                                Console.WriteLine(metodos.Sacar(clienteMain));
-                                Thread.Sleep(3000);
-                                Console.Clear();
-                                break;
-
-                            case '3':
-                                Console.WriteLine(metodos.Pagar(clienteMain));
-                                Thread.Sleep(3000);
-                                Console.Clear();
-                                break;
-
-                            case '4':
-                                Console.WriteLine("Escolha uma conta para ser o favorecido: ");
-                                List<Cliente> favorecidos = new List<Cliente>(clientesLista);
-                                favorecidos.Remove(clienteMain);
-                                if (favorecidos.Count == 0)
-                                {
-                                    Console.WriteLine("Ainda não foram cadastrados clientes o suficiente para realização de transferência.", Console.ForegroundColor = ConsoleColor.Red);
-                                    Console.ResetColor();
-                                    Thread.Sleep (2000);
+                            Console.WriteLine("||            OPERAÇÕES            ||");
+                            Console.WriteLine("=====================================");
+                            Console.WriteLine("|| 1 - Depositar                   ||");
+                            Console.WriteLine("|| 2 - Sacar                       ||");
+                            Console.WriteLine("|| 3 - Pagar                       ||");
+                            Console.WriteLine("|| 4 - Transferir                  ||");
+                            Console.WriteLine("|| 5 - Alterar dados cadastrais    ||");
+                            Console.WriteLine("|| 6 - Mostrar detalhes de conta   ||");
+                            Console.WriteLine("|| 7 - Trocar conta escolhida      ||");
+                            Console.WriteLine("|| 8 - Voltar                      ||");
+                            char opcao2 = Console.ReadKey().KeyChar;
+                            Console.WriteLine();
+                            switch (opcao2)
+                            {
+                                case '1':
+                                    Console.WriteLine(metodos.Depositar(clienteMain));
+                                    Thread.Sleep(2000);
+                                    Console.Clear();
                                     break;
-                                }
-                                for (int i = 0; i < favorecidos.Count; i++)
-                                {
-                                    var opCliente = favorecidos[i];
 
-                                    if (opCliente.Evip == true) 
+                                case '2':
+                                    Console.WriteLine(metodos.Sacar(clienteMain));
+                                    Thread.Sleep(2000);
+                                    Console.Clear();
+                                    break;
+
+                                case '3':
+                                    Console.WriteLine(metodos.Pagar(clienteMain));
+                                    Thread.Sleep(2000);
+                                    Console.Clear();
+                                    break;
+
+                                case '4':
+                                    Console.WriteLine("Escolha uma conta para ser o favorecido: ");
+                                    List<Cliente> favorecidos = new List<Cliente>(clientesLista);
+                                    favorecidos.Remove(clienteMain);
+                                    if (favorecidos.Count == 0)
                                     {
-                                        Console.WriteLine("* " + (i + 1) + " - " + opCliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
+                                        Console.WriteLine("Ainda não foram cadastrados clientes o suficiente para realização de transferência.", Console.ForegroundColor = ConsoleColor.Red);
                                         Console.ResetColor();
+                                        Thread.Sleep(2000);
+                                        break;
                                     }
-                                    else
+                                    for (int i = 0; i < favorecidos.Count; i++)
                                     {
-                                        Console.WriteLine(i + 1 + " - " + opCliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
-                                        Console.ResetColor();
-                                    }
-                                }
+                                        var opCliente = favorecidos[i];
 
-                                int escolhaFavor = int.Parse(Console.ReadLine()) - 1;
-                                Cliente clienteFavor = favorecidos[escolhaFavor];
-
-                                Console.WriteLine(metodos.Transferir(clienteMain, clienteFavor));
-                                Thread.Sleep(3000);
-                                Console.Clear();
-                                break;
-
-                            case '5':
-                                Console.WriteLine("Qual dado deseja alterar?");
-                                Console.WriteLine("1 - Nome");
-                                Console.WriteLine("2 - Email");
-                                Console.WriteLine("3 - CPF");
-
-                                char dado = Console.ReadKey().KeyChar;
-                                Console.WriteLine();
-
-                                switch (dado)
-                                {
-                                    case '1':
-                                        Console.WriteLine("Novo Nome:");
-                                        clienteMain.Nome = Console.ReadLine();
-                                        Console.Clear();
-                                        break;
-
-                                    case '2':
-                                        Console.WriteLine("Novo Email:");
-                                        clienteMain.Email = Console.ReadLine();
-                                        Console.Clear();
-                                        break;
-
-                                    case '3':
-                                        Console.WriteLine("Novo CPF:");
-                                        clienteMain.CPF = long.Parse(Console.ReadLine());
-                                        Console.Clear();
-                                        break;
-
-                                    default:
-                         
-                                        Console.WriteLine("Escolha inválida, tente novamente.", Console.ForegroundColor = ConsoleColor.Red);
-                                        Console.ResetColor();
-                                        break;
-                                }
-                                break;
-
-                            case '6':
-                                Console.WriteLine();
-                                Console.WriteLine(clienteMain);
-                                Console.Write("Aperte ");
-                                Console.Write("E", Console.ForegroundColor = ConsoleColor.Green);
-                                Console.ResetColor();
-                                Console.Write(" para mostrar o extrato.\n");
-                                Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
-                                Console.ResetColor();
-                                while (true)
-                                {
-                                    char escolha = Console.ReadKey().KeyChar;
-                                    if (char.ToUpper(escolha) == 'E')
-                                    {
-                                        foreach(Extrato extrato in clienteMain.Extratos) 
+                                        if (opCliente.Evip == true)
                                         {
-                                            Console.WriteLine(extrato);
-                                            Console.WriteLine("========================================");
+                                            Console.WriteLine("* " + (i + 1) + " - " + opCliente.Nome, Console.ForegroundColor = ConsoleColor.DarkYellow);
+                                            Console.ResetColor();
                                         }
-                                        
-                                        Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
-                                        Console.ResetColor();
-                                        if (char.ToUpper(escolha) == 'X')
+                                        else
+                                        {
+                                            Console.WriteLine(i + 1 + " - " + opCliente.Nome, Console.ForegroundColor = ConsoleColor.Blue);
+                                            Console.ResetColor();
+                                        }
+                                    }
+
+                                    int escolhaFavor = int.Parse(Console.ReadLine()) - 1;
+                                    Cliente clienteFavor = favorecidos[escolhaFavor];
+
+                                    Console.WriteLine(metodos.Transferir(clienteMain, clienteFavor));
+                                    Thread.Sleep(2000);
+                                    Console.Clear();
+                                    break;
+
+                                case '5':
+                                    Console.WriteLine("Qual dado deseja alterar?");
+                                    Console.WriteLine("1 - Nome");
+                                    Console.WriteLine("2 - Email");
+                                    Console.WriteLine("3 - CPF");
+
+                                    char dado = Console.ReadKey().KeyChar;
+                                    Console.WriteLine();
+
+                                    switch (dado)
+                                    {
+                                        case '1':
+                                            Console.WriteLine("Novo Nome:");
+                                            clienteMain.Nome = Console.ReadLine();
+                                            Console.Clear();
+                                            break;
+
+                                        case '2':
+                                            Console.WriteLine("Novo Email:");
+                                            clienteMain.Email = Console.ReadLine();
+                                            Console.Clear();
+                                            break;
+
+                                        case '3':
+                                            Console.WriteLine("Novo CPF:");
+                                            clienteMain.CPF = long.Parse(Console.ReadLine());
+                                            Console.Clear();
+                                            break;
+
+                                        default:
+
+                                            Console.WriteLine("Escolha inválida, tente novamente.", Console.ForegroundColor = ConsoleColor.Red);
+                                            Console.ResetColor();
+                                            break;
+                                    }
+                                    break;
+
+                                case '6':
+                                    Console.WriteLine();
+                                    Console.WriteLine(clienteMain);
+                                    Console.Write("Aperte ");
+                                    Console.Write("E", Console.ForegroundColor = ConsoleColor.Green);
+                                    Console.ResetColor();
+                                    Console.Write(" para mostrar o extrato.\n");
+                                    Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
+                                    Console.ResetColor();
+                                    while (true)
+                                    {
+                                        char escolha = Console.ReadKey().KeyChar;
+                                        if (char.ToUpper(escolha) == 'E')
+                                        {
+                                            foreach (Extrato extrato in clienteMain.Extratos)
+                                            {
+                                                Console.WriteLine(extrato);
+                                                Console.WriteLine("========================================");
+                                            }
+
+                                            Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
+                                            Console.ResetColor();
+                                            if (char.ToUpper(escolha) == 'X')
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Escolha inválida, tente novamente.");
+                                            }
+                                        }
+                                        else if (char.ToUpper(escolha) == 'X')
                                         {
                                             break;
                                         }
@@ -303,21 +341,17 @@ namespace BancoUI
                                         {
                                             Console.WriteLine("Escolha inválida, tente novamente.");
                                         }
-                                    }
-                                    else if (char.ToUpper(escolha) == 'X')
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Escolha inválida, tente novamente.");
-                                    }
-                                    
-                                }
-                                break;
 
-                            case '7':
-                                break;
+                                    }
+                                    break;
+
+                                case '7':
+                                    break;
+
+                                default: 
+                                    Console.WriteLine("Escolha inválida, tente novamente.");
+                                    break;
+                            }
                         }
                         break;
 
