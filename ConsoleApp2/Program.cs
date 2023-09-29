@@ -85,7 +85,7 @@ namespace BancoUI
                             {
                                 standartsLista.Add(cliente);
                             }
-                            Thread.Sleep(3000);
+                            Thread.Sleep(1000);
                             Console.Clear();
                             break;
                         
@@ -279,7 +279,7 @@ namespace BancoUI
                                 Console.Write("Aperte ");
                                 Console.Write("E", Console.ForegroundColor = ConsoleColor.Green);
                                 Console.ResetColor();
-                                Console.Write(" para mostrar o extrato.");
+                                Console.Write(" para mostrar o extrato.\n");
                                 Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
                                 Console.ResetColor();
                                 while (true)
