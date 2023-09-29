@@ -14,7 +14,7 @@ namespace BancoUI
             bool continua = true;
 
             Metodos metodos = new Metodos();
-
+            IRepositorio repositorio;
 
             Console.WriteLine("Deseja salvar os conteúdos em A - arquivo ou em L - lista (se salvo em lista, o conteúdo não será acessível depois do fechamento do programa) ?");
             char salva = Console.ReadKey().KeyChar;
@@ -35,7 +35,7 @@ namespace BancoUI
 
             if (char.ToUpper(salva) == 'A')
             {
-                FileStream fileStream = new FileStream(@"Clientes.txt", FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                repositorio = new FileRepo();
                 Console.Clear();
             }
 
@@ -175,7 +175,8 @@ namespace BancoUI
                         Console.WriteLine("3 - Pagar");
                         Console.WriteLine("4 - Transferir");
                         Console.WriteLine("5 - Alterar dados cadastrais");
-                        Console.WriteLine("6 - Voltar");
+                        Console.WriteLine("6 - Mostrar detalhes de conta");
+                        Console.WriteLine("7 - Voltar");
 
                         char opcao2 = Console.ReadKey().KeyChar;
                         Console.WriteLine();
@@ -265,6 +266,15 @@ namespace BancoUI
                                 break;
 
                             case '6':
+                                Console.WriteLine(metodos.Detalhar(clienteMain));
+                                Console.WriteLine("Aperte X para voltar");
+                                char volta = Console.ReadKey().KeyChar;
+                                if (char.ToUpper(volta) == 'X') 
+                                {
+                                    break;
+                                }
+                                
+                            case '7':
                                 break;
                         }
                         break;

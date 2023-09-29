@@ -7,6 +7,8 @@ namespace CamadaDeDados
         public static readonly string VERMELHO = "\u001B[31m";
         public static readonly string RESETCOR = "\u001B[0m";
         public static readonly string VERDE = "\u001B[32m";
+        public static readonly string DOURADO = "\u001b[33m";
+        public static readonly string AZUL = "\033[0;34m";
 
         public void Cadastrar(Cliente cliente)
         {
@@ -125,8 +127,7 @@ namespace CamadaDeDados
             return $"Transferência de {beneficiario.Nome} para {favorecido.Nome} no valor de {VERDE}{transferencia}${RESETCOR} feita com sucesso.";
         }
 
-        public void SalvarArquivo() 
-        {
+     
 
         }
     }

@@ -12,6 +12,12 @@ namespace CamadaDeNegocios
         private List<Extrato> extratos = new List<Extrato>();
 
 
+
+        public static readonly string VERMELHO = "\u001B[31m";
+        public static readonly string RESETCOR = "\u001B[0m";
+        public static readonly string VERDE = "\u001B[32m";
+        public static readonly string DOURADO = "\u001b[33m";
+        public static readonly string AZUL = "\033[0;34m";
         public string Nome
         {
             get { return nome; }
@@ -86,7 +92,32 @@ namespace CamadaDeNegocios
             string cpfStr = cpf.ToString();
             return Regex.IsMatch(cpfStr, cpfRgx);
         }
-    }
+
+        public override string Detalhar()
+        {
+            if (Evip == true)
+            {
+                if (Saldo > 0)
+                {
+                    return $"Nome: {DOURADO}{Nome}{RESETCOR}   *VIP\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERDE}{Saldo}{RESETCOR}";
+                }
+                else
+                {
+                    return $"Nome: {DOURADO}{Nome}{RESETCOR}   *VIP\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERMELHO}{Saldo}{RESETCOR}";
+                }
+            }
+            else
+            {
+                if (Saldo > 0)
+                {
+                    return $"Nome: {AZUL}{Nome}{RESETCOR}\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERDE}{Saldo}{RESETCOR}";
+                }
+                else
+                {
+                    return $"Nome: {AZUL}{Nome}{RESETCOR}\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERMELHO}{Saldo}{RESETCOR}";
+                }
+            }
+        }
 }
     
 

@@ -9,6 +9,5 @@ namespace CamadaDeDados
         string Sacar(Cliente cliente);
         string Pagar(Cliente cliente);
         string Transferir(Cliente beneficiado, Cliente favorecido);
-        void Salvar();
     }
 }
