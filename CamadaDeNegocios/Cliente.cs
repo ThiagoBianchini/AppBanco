@@ -17,7 +17,7 @@ namespace CamadaDeNegocios
         public static readonly string RESETCOR = "\u001B[0m";
         public static readonly string VERDE = "\u001B[32m";
         public static readonly string DOURADO = "\u001b[33m";
-        public static readonly string AZUL = "\033[0;34m";
+        public static readonly string AZUL = "\u001b[34m";
         public string Nome
         {
             get { return nome; }
@@ -62,13 +62,13 @@ namespace CamadaDeNegocios
 
         public bool Evip { get; set; }
 
-        public double Saldo 
+        public double Saldo
         {
             get { return saldo; }
             set { saldo = value; }
         }
 
-        public List<Extrato> Extratos   
+        public List<Extrato> Extratos
         {
             get { return extratos; }
             set { extratos = value; }
@@ -93,17 +93,17 @@ namespace CamadaDeNegocios
             return Regex.IsMatch(cpfStr, cpfRgx);
         }
 
-        public override string Detalhar()
+        public override string ToString()
         {
             if (Evip == true)
             {
                 if (Saldo > 0)
                 {
-                    return $"Nome: {DOURADO}{Nome}{RESETCOR}   *VIP\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERDE}{Saldo}{RESETCOR}";
+                    return $"Nome: {DOURADO}{Nome}   *VIP{RESETCOR}\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERDE}{Saldo}{RESETCOR}";
                 }
                 else
                 {
-                    return $"Nome: {DOURADO}{Nome}{RESETCOR}   *VIP\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERMELHO}{Saldo}{RESETCOR}";
+                    return $"Nome: {DOURADO}{Nome}   *VIP{RESETCOR}\nEmail: {Email}\nCPF: {CPF}\nSaldo: {VERMELHO}{Saldo}{RESETCOR}";
                 }
             }
             else
@@ -118,6 +118,7 @@ namespace CamadaDeNegocios
                 }
             }
         }
+    }
 }
     
 

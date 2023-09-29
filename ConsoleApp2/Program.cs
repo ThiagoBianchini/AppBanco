@@ -205,6 +205,13 @@ namespace BancoUI
                                 Console.WriteLine("Escolha uma conta para ser o favorecido: ");
                                 List<Cliente> favorecidos = new List<Cliente>(clientesLista);
                                 favorecidos.Remove(clienteMain);
+                                if (favorecidos.Count == 0)
+                                {
+                                    Console.WriteLine("Ainda não foram cadastrados clientes o suficiente para realização de transferência.", Console.ForegroundColor = ConsoleColor.Red);
+                                    Console.ResetColor();
+                                    Thread.Sleep (2000);
+                                    break;
+                                }
                                 for (int i = 0; i < favorecidos.Count; i++)
                                 {
                                     var opCliente = favorecidos[i];
@@ -259,6 +266,7 @@ namespace BancoUI
                                         break;
 
                                     default:
+                         
                                         Console.WriteLine("Escolha inválida, tente novamente.", Console.ForegroundColor = ConsoleColor.Red);
                                         Console.ResetColor();
                                         break;
@@ -266,14 +274,48 @@ namespace BancoUI
                                 break;
 
                             case '6':
-                                Console.WriteLine(metodos.Detalhar(clienteMain));
-                                Console.WriteLine("Aperte X para voltar");
-                                char volta = Console.ReadKey().KeyChar;
-                                if (char.ToUpper(volta) == 'X') 
+                                Console.WriteLine();
+                                Console.WriteLine(clienteMain);
+                                Console.Write("Aperte ");
+                                Console.Write("E", Console.ForegroundColor = ConsoleColor.Green);
+                                Console.ResetColor();
+                                Console.Write(" para mostrar o extrato.");
+                                Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
+                                Console.ResetColor();
+                                while (true)
                                 {
-                                    break;
+                                    char escolha = Console.ReadKey().KeyChar;
+                                    if (char.ToUpper(escolha) == 'E')
+                                    {
+                                        foreach(Extrato extrato in clienteMain.Extratos) 
+                                        {
+                                            Console.WriteLine(extrato);
+                                            Console.WriteLine("========================================");
+                                        }
+                                        
+                                        Console.WriteLine("Aperte X para voltar", Console.ForegroundColor = ConsoleColor.Red);
+                                        Console.ResetColor();
+                                        if (char.ToUpper(escolha) == 'X')
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Escolha inválida, tente novamente.");
+                                        }
+                                    }
+                                    else if (char.ToUpper(escolha) == 'X')
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Escolha inválida, tente novamente.");
+                                    }
+                                    
                                 }
-                                
+                                break;
+
                             case '7':
                                 break;
                         }

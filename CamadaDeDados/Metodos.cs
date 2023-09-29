@@ -69,7 +69,7 @@ namespace CamadaDeDados
         public string Sacar(Cliente cliente)
         {
             Console.WriteLine("Digite o valor que deseja sacar: ");
-            double saque = double.Parse(Console.ReadLine());
+            double saque;
             while (!double.TryParse(Console.ReadLine(), out saque) || saque <= 0)
             {
                 Console.WriteLine("Valor não suportado para a operação de saque, por favor, digite o valor novamente.");
@@ -83,21 +83,21 @@ namespace CamadaDeDados
             {
                 cliente.Saldo -= saque;
                 cliente.Extratos.Add(new Extrato(DateTime.Now, saque, $"Saque de {saque}$", "Saque"));
-                return $"Foram sacados {VERMELHO}{saque}{RESETCOR} Simoleons na conta de {cliente.Nome}.\nResta agora {VERDE}{cliente.Saldo}${RESETCOR} na conta de {cliente.Nome}.";
+                return $"Foram sacados {VERMELHO}{saque}{RESETCOR}$ na conta de {cliente.Nome}.\nResta agora {VERDE}{cliente.Saldo}${RESETCOR} na conta de {cliente.Nome}.";
             }
         }
 
         public string Pagar(Cliente cliente)
         {
             Console.WriteLine("Digite o valor do pagamento: ");
-            double pagamento = double.Parse(Console.ReadLine());
-            Console.WriteLine("Dê uma descrição para o pagamento.");
-            string descricao = Console.ReadLine();
+            double pagamento;
             while (!double.TryParse(Console.ReadLine(), out pagamento) || pagamento <= 0)
             {
                 Console.WriteLine("Valor não suportado para a operação de saque, por favor, digite o valor novamente.");
             }
-
+            Console.WriteLine("Dê uma descrição para o pagamento.");
+            string descricao = Console.ReadLine();
+          
             cliente.Saldo -= pagamento;
             cliente.Extratos.Add(new Extrato(DateTime.Now, pagamento, descricao, "Pagamento"));
             if (pagamento > cliente.Saldo)
@@ -125,10 +125,6 @@ namespace CamadaDeDados
             beneficiario.Extratos.Add(new Extrato(DateTime.Now, -transferencia, $"Tranferência feita para {favorecido.Nome}", "Transferência"));
             favorecido.Extratos.Add(new Extrato(DateTime.Now, transferencia, $"Transferência recebida de {beneficiario.Nome}", "Transferência"));
             return $"Transferência de {beneficiario.Nome} para {favorecido.Nome} no valor de {VERDE}{transferencia}${RESETCOR} feita com sucesso.";
-        }
-
-     
-
         }
     }
 }

@@ -14,5 +14,14 @@
             this.descricao = descricao;
             this.tipo = tipo;
         }
+
+        public static readonly string DOURADO = "\u001b[33m";
+        public static readonly string VERMELHO = "\u001B[31m";
+        public static readonly string RESETCOR = "\u001B[0m";
+        public static readonly string VERDE = "\u001B[32m";
+        public override string ToString() 
+        {
+            return $"{DOURADO}{tipo.ToUpper()}{RESETCOR}\nDescrição: {descricao}\nHorário: {horario}\nValor: {valor}";
+        }
     }
 }

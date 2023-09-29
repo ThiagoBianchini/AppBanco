@@ -1,6 +1,5 @@
 ﻿using CamadaDeNegocios;
 using Newtonsoft.Json;
-using System.IO;
 
 namespace CamadaDeDados
 {
